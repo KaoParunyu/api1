@@ -1,0 +1,39 @@
+.App {
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+.App-header {
+  background-color: #3a6e7e;
+  padding: 20px;
+  color: white;
+}
+
+.App-content {
+  display: grid;
+  gap: 20px;
+  padding: 20px;
+  grid-template-columns: 1fr;
+  background-color: rgb(3, 11, 67);
+}
+
+.card {
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(30, 199, 205, 50);
+  background-color: #ba2e2e;
+  text-align: left;
+}
+
+/* Responsive layout */
+@media (min-width: 768px) {
+  .App-content {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .App-content {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
