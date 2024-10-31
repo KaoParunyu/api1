@@ -1,38 +1,37 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./login.css";
 import axios from "axios";
+
 function Login() {
-  const resetForm = () => {
-    setUsername("");
-    setPassword("");
-    if (resetForm) console.log("ได้");
-    else console.log("ไม่");
-  };
-  const [userData, setUserData] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:3000/api/user")
-      .then((response) => setUserData(response.data))
-      .catch((error) => console.error("พัง", error));
-  }, []);
+  const resetForm = () => {
+    setUsername("");
+    setPassword("");
+    console.log("ฟอร์มถูกรีเซ็ต");
+  };
 
-  const handleLogin = () => {
-    const identify = userData.find(
-      (passcard) =>
-        passcard.username === username && passcard.password === password
-    );
-    if (identify) alert("login");
-    else alert("not found");
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post("http://localhost:3000/api/login", {
+        username,
+        password,
+      });
+      if (response.status === 200) {
+        alert("Login successful");
+      }
+    } catch (error) {
+      alert("Invalid username or password");
+      console.error("Error:", error);
+    }
   };
 
   return (
     <section>
-      <div>login</div>
+      <div>Login</div>
       <form id="reset">
-        <div>user</div>
+        <div>User</div>
         <input
           type="text"
           id="fname"
@@ -40,7 +39,7 @@ function Login() {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
-        <div>password</div>
+        <div>Password</div>
         <input
           type="password"
           id="lname"
@@ -48,8 +47,8 @@ function Login() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <input type="button" onClick={handleLogin} />
-        <input type="reset" value="reset" onClick={resetForm} />
+        <input type="button" value="Login" onClick={handleLogin} />
+        <input type="reset" value="Reset" onClick={resetForm} />
       </form>
     </section>
   );
