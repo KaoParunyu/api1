@@ -1,16 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./login.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const resetForm = () => {
     setUsername("");
     setPassword("");
     console.log("ฟอร์มถูกรีเซ็ต");
   };
+
+  useEffect(() =>{
+  
+  const userData = localStorage.getItem("userData");
+
+  if (userData){
+    navigate("/profile");
+  }
+  },[navigate]);
+
 
   const handleLogin = async () => {
     try {
@@ -19,7 +31,10 @@ function Login() {
         password,
       });
       if (response.status === 200) {
+        // เก็บข้อมูลผู้ใช้ใน localStorage
+        localStorage.setItem("userData", JSON.stringify(response.data.user));
         alert("Login successful");
+        navigate("/profile"); // นำทางไปยังหน้า profile
       }
     } catch (error) {
       alert("Invalid username or password");
